@@ -1,4 +1,6 @@
 import './App.css';
+import updateResult from "./apis/currency_converter";
+
 
 function App() {
   return (
@@ -8,18 +10,18 @@ function App() {
         <form>
           <label>
             From (ISO alpha-3):
-            <input type='text' id='fromCurrency' />
+            <input type='text' id='fromCurrency' maxLength='3' onChange={updateResult}/>
           </label>
           <label>
             To (ISO alpha-3):
-            <input type='text' id='toCurrency' />
+            <input type='text' id='toCurrency' maxLength='3' onBlur={updateResult}/>
           </label>
           <label>
             Amount:
-            <input type='number' id='amount' />
+            <input type='number' id='amount' onBlur={updateResult}/>
           </label>
         </form>
-        <p id='result'>Result: </p>
+        <p id='result'>Result:<br/></p>
       </article>
     </section>
   );

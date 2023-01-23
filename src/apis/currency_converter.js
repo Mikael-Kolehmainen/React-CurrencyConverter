@@ -1,6 +1,30 @@
-const axios = require("axios");
+import axios from "axios";
 
 const apiKey = 'yYwDFStDRT5m3ZfEn5ob4c10t1b1d8Xy';
+
+async function updateResult() {
+    const fromCurrencyValue = document.getElementById('fromCurrency').value;
+    const toCurrencyValue = document.getElementById('toCurrency').value;
+    const amountCurrencyValue = document.getElementById('amount').value;
+
+    if (fromCurrencyValue
+        && toCurrencyValue
+        && amountCurrencyValue) {
+
+        const resultElement = document.getElementById('result');
+
+        resultElement.innerHTML = 'Result:<br>';
+
+        convertCurrency(fromCurrencyValue, toCurrencyValue, amountCurrencyValue)
+            .then((message) => {
+                resultElement.innerHTML += message;
+            }).catch((error) => {
+                console.log(error);
+            })
+    }
+}
+
+export default updateResult;
 
 const getExchangeRate = async (fromCurrency, toCurrency) => {
     const response = await axios.get(`https://api.apilayer.com/exchangerates_data/latest?apikey=${apiKey}`);
@@ -22,7 +46,8 @@ const getCountries = async (toCurrency) => {
 
         return response.data.map(country => country.name);
     } catch (error) {
-        throw new Error(`Unable to get countries that use ${toCurrency}`);
+     //   throw new Error(`Unable to get countries that use ${toCurrency}`);
+        throw new Error(`Unable to get countries that use ${error}`);
     }
 }
 
@@ -31,12 +56,10 @@ const convertCurrency = async (fromCurrency, toCurrency, amount) => {
     const exchangeRate = await getExchangeRate(fromCurrency, toCurrency);
     const convertedAmount = (amount * exchangeRate).toFixed(2);
 
-    return `${amount} ${fromCurrency} is worth ${convertedAmount} ${toCurrency}. You can spend these in the following countries: ${countries}`;
-}
+    let countriesString = '';
+    countries.forEach(countryName => {
+        countriesString += countryName + ", ";
+    });
 
-convertCurrency('USD', 'EUR', 20)
-    .then((message) =>  {
-        console.log(message);
-    }).catch((error) => {
-        console.log(error);
-    })
+    return `${amount} ${fromCurrency} is worth ${convertedAmount} ${toCurrency}.<br/> You can spend these in the following countries: ${countriesString}`;
+}
