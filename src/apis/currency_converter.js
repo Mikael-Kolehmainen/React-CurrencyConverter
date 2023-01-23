@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiKey = 'yYwDFStDRT5m3ZfEn5ob4c10t1b1d8Xy';
+const apiKey = ''; // add apilayer.com api key here.
 
 async function updateResult() {
     const fromCurrencyValue = document.getElementById('fromCurrency').value;
