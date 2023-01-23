@@ -46,8 +46,7 @@ const getCountries = async (toCurrency) => {
 
         return response.data.map(country => country.name);
     } catch (error) {
-     //   throw new Error(`Unable to get countries that use ${toCurrency}`);
-        throw new Error(`Unable to get countries that use ${error}`);
+        throw new Error(`Unable to get countries that use ${toCurrency}`);
     }
 }
 
